@@ -15,13 +15,13 @@ const instance = axios.create({
   },
 });
 
-export const fetchMovies = async (query: string): Promise<TMDBResponse> => {
+export const fetchMovies = async (query: string, page: number): Promise<TMDBResponse> => {
   const response = await instance.get<TMDBResponse>('/search/movie', {
     params: {
       query,
       include_adult: false,
       language: 'en-US',
-      page: 1,
+      page: page,
     },
   });
   return response.data;
