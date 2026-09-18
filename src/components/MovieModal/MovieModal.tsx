@@ -59,6 +59,6 @@ export const MovieModal: React.FC<MovieModalProps> = ({ movie, onClose }) => {
         </div>
       </div>
     </div>,
-    document.body // Другий аргумент — куди саме монтувати вузол
+    document.body
   );
 };
