@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { fetchMovies } from '../../services/movieService';
 import type { Movie } from '../../types/movie';
@@ -30,14 +31,16 @@ export default function App() {
     queryKey: ['movies', query, page],
     queryFn: async () => {
       const res = await fetchMovies(query, page);
-      
-      if (res.results.length === 0 && query !== '') {
-        toast.error('No movies found for your request.');
-      }
       return res;
     },
-    enabled: query !== '', 
+    enabled: query !== '',
+    placeholderData: keepPreviousData,
   });
+  useEffect(() => {
+  if (data && data.results.length === 0 && query !== '') {
+    toast.error('No movies found for your request.');
+  }
+}, [data, query]);
 
   const handleSearch = (newQuery: string) => {
     setQuery(newQuery);
